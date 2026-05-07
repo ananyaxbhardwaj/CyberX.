@@ -239,14 +239,12 @@ Browser Extension / Social Platforms
 
 Special thanks to:
 
-* Ms. Devanshi Wangoo
+* Prof Devanshi Wangoo
 
 
 ---
 
 # 📌 Vision
-
-> "Cyberbullying is no longer just a social issue — it is a digital safety challenge."
 
 CyberX aims to create a safer, smarter, and more responsible digital ecosystem.
 
