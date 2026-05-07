@@ -1,6 +1,4 @@
-<h1 align="center">
-  <img src="https://imgur.com/4v9ghOJ.png">
-</h1>
+
 
 <p align="center">
 <a href=""><img title="Python3" src="https://img.shields.io/badge/Python-3-yellow?style=for-the-badge&logo=python"></a>
@@ -236,10 +234,7 @@ Browser Extension / Social Platforms
 Special thanks to:
 
 * Ms. Devanshi Wangoo
-* HuggingFace
-* Flask
-* MongoDB
-* Open-source AI communities
+
 
 ---
 
