@@ -1,134 +1,269 @@
 <h1 align="center">
   <img src="https://imgur.com/4v9ghOJ.png">
 </h1>
+
 <p align="center">
 <a href=""><img title="Python3" src="https://img.shields.io/badge/Python-3-yellow?style=for-the-badge&logo=python"></a>
-<a href=""><img title="License" src="https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge&logo="></a>
+<a href=""><img title="Flask" src="https://img.shields.io/badge/Backend-Flask-black?style=for-the-badge&logo=flask"></a>
+<a href=""><img title="MongoDB" src="https://img.shields.io/badge/Database-MongoDB-green?style=for-the-badge&logo=mongodb"></a>
+<a href=""><img title="License" src="https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge"></a>
 </p>
 
+# 🛡️ CyberX
 
-## Problem Statement
-- Cyber bullying involves **posting, sharing wrong, private, negative, harmful information** about victim. In today's digital world we see many such instances where a particular person is targeted. We are looking for the software solution to curb such bullying/harassment in cyber space. Such solution is expected to 
-  1. Work on **social media** such as twitter, facebook,etc.;. 
-  2. Facility to **flag and report such incidents** to authority.
+### *Understanding, Preventing, and Responding to Cyberbullying in Real-Time*
 
+---
 
-## Getting Started
-The Software solution that we propose is **Cyber Offense Detecting and Reporting (CyberX) Framework**, A system that semi-automates the Internet Moderation Process.
+## 🚨 Problem Statement
 
-### What did we use?
-<a href="https://github.com/axenhammer/CyberX/network/dependencies"><img height="42" src="https://i.imgur.com/4bUNd79.png" /></a>
-----
-### Key Features :star:
-- [X] Finds the **NSFW composition** of a given **YouTube video**
-- [X] Perform **Text Toxicity Prediction** on public **Facebook Posts/Comments** using BeautifulSoup and Facebook API.
-- [X] Structures and Perform **Text Toxicity Prediction** on **WhatsApp Chat Export Documents**.
-- [X] **Visualise Realtime Toxicity Scored on Tweets** using Grafana.
-- [X] **Chrome Extension** to automatically **block offensive content**
-- [X] **Reporting Portal** for the public to report content.
-- [X] A **custom Social Media Platform** to test the capablities of this system.
+Cyberbullying involves posting, sharing, or spreading harmful, abusive, hateful, or offensive content online.
 
------
-### Obscene Image Classification 📷
-:star::star::star: We have made our **[NSFW Image Classification Dataset](https://www.kaggle.com/dataset/360fbfce26b59056e60d5e9cd1cfa884c2d66c5b6f3b350254651cd136a41322)** accessible through Kaggle Link-Sharing and we have used the same. Our classification model for Content Moderation in Social Media Platforms are trained over 330,000 images on a pretrained RESNET50 in five “loosely defined” categories:
-1. **`pornography`** - Nudes and pornography images
-2. **`hentai`** - Hentai images, but also includes pornographic drawings
-3. **`sexually_provocative`** - Sexually explicit images, but not pornography. Think semi-nude photos, playboy, bikini, beach volleyball, etc. Considered acceptable by most public social media platforms.
-4. **`neutral`** - Safe for work neutral images of everyday things and people.
-5. **`drawing`** - Safe for work drawings (including anime, safe-manga)
+In today’s digital world, toxic content spreads faster than moderation systems can react.
+A single viral post can trigger:
 
------
-### Text Toxicity Prediction 💬
-Our text classification BERT model is trained on the **[Jigsaw Toxic Comment Classification Dataset](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/data)** to predict the toxicity of texts to pre-emptively prevent any occurrence of cyberbullying and harassment before they tend to occur. We're chose **BERT as to overcome challenges including understanding the context of text so as to detect sarcasm and cultural references, as it uses Stacked Transformer Encoders and Attention Mechanism to understand the relationship between words and sentences, the context from a given sentence**.  
+* Online harassment
+* Hate speech
+* Public shaming
+* Threats and abuse
+* Mental health impact
 
-```
-Text_Input: I want to drug and rape her 
+Current moderation systems suffer from:
+
+1. Heavy reliance on manual moderators
+2. Delayed response time
+3. Poor scalability
+4. Lack of contextual understanding
+5. Reactive moderation instead of proactive prevention
+
+CyberX aims to solve this problem using AI-powered real-time cyberbullying detection and reporting.
+
+---
+
+# ✨ Getting Started
+
+CyberX is a **multi-layered cyber-forensic framework** designed to detect, moderate, analyze, and report offensive content across social media platforms.
+
+The framework combines:
+
+* 🧠 Natural Language Processing (BERT)
+* 👁️ Computer Vision (ResNet)
+* ⚡ Real-time browser protection
+* 📊 Dashboard-based forensic monitoring
+* 🛡️ Smart reporting and moderation tools
+
+---
+
+## ⚙️ What Did We Use?
+
+<a href="https://huggingface.co/"><img height="42" src="https://i.imgur.com/4bUNd79.png" /></a>
+
+---
+
+# 🌟 Key Features
+
+* [x] Real-time toxicity detection on social media posts/comments
+* [x] Browser extension that automatically blurs harmful content
+* [x] BERT-based text toxicity classification
+* [x] ResNet-based offensive image analysis
+* [x] Centralized forensic reporting dashboard
+* [x] WhatsApp harmful chat detection
+* [x] Instagram toxic comment analysis
+* [x] Twitter/X cyberbullying monitoring
+* [x] YouTube live comment moderation
+* [x] Reporting portal for harmful content
+* [x] AI-powered severity scoring system
+* [x] Docker-based scalable deployment
+* [x] Custom social media sandbox platform (Viraly)
+
+---
+
+# 🧠 Text Toxicity Prediction 💬
+
+CyberX uses a transformer-based **Toxic-BERT** model trained for multi-label toxicity classification.
+
+### Detects:
+
+1. **toxic** → rude or disrespectful language
+2. **severe_toxic** → extremely hateful content
+3. **obscene** → vulgar or profane language
+4. **threat** → threats of violence or harm
+5. **insult** → personal attacks or demeaning content
+6. **identity_hate** → attacks on race, religion, gender, etc.
+
+### Why BERT?
+
+We chose BERT because it:
+
+* Understands contextual meaning
+* Detects sarcasm and implicit hate
+* Reduces false positives
+* Uses transformer encoders + attention mechanisms
+* Supports scalable real-time moderation
+
+```text
+Text Input: You are a stupid person.
 ======================
-Toxic: 0.987 
-Severe_Toxic: 0.053 
-Obscene: 0.100 
-Threat 0.745 
-Insult: 0.124 
-Identity_Hate: 0.019 
+Toxic: 0.92
+Insult: 0.81
+Threat: 0.04
 ======================
-Result: Extremely Toxic as classified as Threat, Toxic 
-Action: Text has been blocked. 
-
+Result: Toxic and insulting content detected.
+Action: Content blurred and flagged.
 ```
------
-## Screenshots (Click images for Full Resolution 🎯)
 
-| Confusion Matrix (91% Overall Accuracy) | Finding the NSFW composition of a YouTube video (📷) |
-|------|-----|
-| ![f](https://imgur.com/zppAC3S.jpg) | [![f](https://imgur.com/Mm3m4H3.gif)](https://i.imgur.com/8r8Zw0w.gif) |
-| **Tested on more than 23,000 unseen images.** | **Downloads the video, Find the NSFW composition using it's Keyframes** |
+---
 
-| Realtime Tweet Toxicity prediction (💬) | Testing the models by integerating with own Social Media Platform (📷+💬) |
-|------------------------------------|-------------------------------------------------------------------|
-| [![f](https://imgur.com/iQWxioB.gif)](https://i.imgur.com/gINYc5i.jpg) | [![f](https://imgur.com/Sv9koRs.gif)](https://i.imgur.com/ivy2HRs.gif) |
-| **We love Grafana** | **Automatically hides NSFW content also shows a disclaimer** |
+# 📷 Obscene Image Classification
 
-| Reporting Portal for the public to report content (📷+💬) | Chrome Extension to automatically block offensive content (📷+💬) |
-|------------------------------------|-------------------------------------------------------------------|
-| [![f](https://imgur.com/0mWzEp6.gif)](https://i.imgur.com/bscylSA.gif) | [![f](https://imgur.com/jEM67si.gif)](https://i.imgur.com/IeBvtGs.gif) |
-| **The reporting portal with a dashboard to semi-automate the moderation process** ||
+CyberX also analyzes harmful media using **ResNet-based Computer Vision models**.
 
------
-### Prerequisites
+### Detects:
 
-<ul><li><details>
-<summary>Expand for running CyberX on <b>Raspberry Pi</b> or other <b>SBCs</b></summary>
-<ul><li>We&#39;d recommend <strong>Raspberry Pi 4 (4GB)</strong> running <a href="https://www.raspberrypi.org/downloads/raspberry-pi-os/">Raspberry Pi OS Lite</a> and <strong>increase the swap size</strong></li>
-<li>Follow this to install <strong><a href="https://gist.github.com/akaanirban/621e63237e63bb169126b537d7a1d979">PyTorch on RPi 4</a></strong></li>
-</ul></li></ul></details></li></ul>
-  
-- Python Compiler (3.7 Recommended)
-  - ```bash
-    sudo apt update
-    sudo apt install -y software-properties-common
-    sudo apt install -y python3 python3-pip
-    ```
-- Necessary Python3 Libraries for CyberX can be installed by running the following command:
-  - ```bash
-    sudo apt install -y python3-opencv
-    pip install -r Social_Media_Platform/requirements.txt
-    pip install -r Content_Moderation/requirements.txt
-    pip install -r Reporting_Platform/requirements.txt
-    ```
-  - For installation of [PyTorch](https://pytorch.org/), refer their official website. 
- - A MongoDB Server, Grafana Sever, MySQL Server, and [access to Twitter API](https://developer.twitter.com/en/apps) 
-  - If you have Docker, you can use the below commands to quickly start a clean MySQL, Grafana and MongoDB Server
-    - ```bash
-      docker run -d -t -p 27017:27017 --name mongodb mongo
-      docker run --name grafana -d -p 3000:3000 grafana/grafana
-      # Runs MySQL server with port 3306 exposed and root password '0000' 
-      docker run --name mysql -e MYSQL_ROOT_PASSWORD="0000" -p 3306:3306 -d mysql
-      ```
-- Add credentails for your MySQL, Twitter API and MongoDB into the Flask Apps. Also, Import our Dashboard JSON into your Grafana Server and configure your data sources accordingly. 
+* NSFW content
+* Offensive visuals
+* Harmful media patterns
+* Explicit or abusive imagery
 
+### Features:
 
+* Contextual image moderation
+* Media + text correlation
+* Real-time scanning support
+* Integrated dashboard reporting
 
-## Contributors
+---
 
-| Krishnakanth Alagiri | Mahalakshumi V | Vignesh S | Nivetha MK |
-|----------------------|----------------|-----------|------------|
-| [![f](https://avatars1.githubusercontent.com/u/39209037?s=86)](https://github.com/bearlike) | [![f](https://avatars2.githubusercontent.com/u/40058339?s=86)](https://github.com/mahavisvanathan) | [![f](https://avatars3.githubusercontent.com/u/42212364?s=86)](https://github.com/Vignesh0404) | [![f](https://avatars2.githubusercontent.com/u/43270349?s=86)](https://github.com/nivethaakm99) | 
-| [@bearlike](https://github.com/bearlike) | [@mahavisvanathan](https://github.com/mahavisvanathan) | [@Vignesh0404](https://github.com/Vignesh0404) | [@nivethaakm99](https://github.com/nivethaakm99) |
+# 🛡️ CyberX Shield — Browser Extension
 
+CyberX Shield acts as a real-time protection layer for users.
 
-## Acknowledgments
-- Our **[NSFW Image Classification Dataset](https://www.kaggle.com/dataset/360fbfce26b59056e60d5e9cd1cfa884c2d66c5b6f3b350254651cd136a41322)** for **Obscene Image Classification**.
-- **[Jigsaw Toxic Comment Classification Dataset](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/data)** for the dataset on **Text Toxicity Classification** 
-- Hat tip to anyone whose code was used.
+### Features:
 
+* Dynamically scans content while scrolling
+* Blurs only harmful sections instead of blocking entire pages
+* Click-to-reveal mechanism
+* Detects newly loaded content instantly
+* Links text with associated media for contextual moderation
 
-## License
-MIT © [Axenhammer](/LICENSE)
+### Supported Platforms
 
+* YouTube
+* Twitter/X
+* Instagram
+* WhatsApp Web
+* Facebook
 
-<br><br>
+---
+
+# 📊 Dashboard & Reporting Portal
+
+CyberX includes a centralized forensic dashboard for moderation and reporting.
+
+### Capabilities
+
+* AI-based forensic scoring
+* Evidence tracking
+* Platform-specific moderation reports
+* Toxicity severity analysis
+* Real-time monitoring
+* Complaint management
+* Cross-platform reporting
+
+---
+
+# 🏗️ Architecture Overview
+
+```text
+Browser Extension / Social Platforms
+                ↓
+        Reporting Backend
+                ↓
+      NLP + Image AI Models
+                ↓
+             MongoDB
+                ↓
+     Admin Dashboard & Reports
+```
+
+### Workflow
+
+1. Browser extension captures harmful content.
+2. Backend APIs process reports.
+3. BERT + ResNet models analyze toxicity.
+4. Results stored in MongoDB.
+5. Dashboard visualizes insights and reports.
+
+---
+
+# ⚙️ Tech Stack
+
+| Category          | Technology                     |
+| ----------------- | ------------------------------ |
+| Frontend          | HTML, CSS, JavaScript          |
+| Backend           | Flask                          |
+| Database          | MongoDB                        |
+| NLP               | HuggingFace Transformers, BERT |
+| Computer Vision   | ResNet                         |
+| Deployment        | Docker                         |
+| APIs              | REST APIs                      |
+| Browser Extension | Chrome Extension APIs          |
+
+---
+
+# 🔮 Future Scope
+
+* 🎙️ Voice & audio toxicity detection
+* 🌍 Multilingual moderation (Hinglish + regional languages)
+* ⚡ Real-time moderation APIs
+* 🚔 Cybercrime portal integration
+* 🧠 Explainable AI (XAI)
+* 📈 AI-powered threat prioritization
+
+---
+
+# 👩‍💻 Contributors
+
+| Ananya Bajpai                | Ananya Bhardwaj        | Anushree Jain       | Gauri Aggarwal       |
+| ---------------------------- | ---------------------- | ------------------- | -------------------- |
+| Reporting Portal & Extension | BERT Toxicity Pipeline | Flask APIs & Viraly | MongoDB & Dashboard  |
+| Real-time detection modules  | NLP Model Integration  | Backend Execution   | Backend Optimization |
+
+---
+
+# 🙌 Acknowledgements
+
+Special thanks to:
+
+* Ms. Devanshi Wangoo
+* HuggingFace
+* Flask
+* MongoDB
+* Open-source AI communities
+
+---
+
+# 📌 Vision
+
+> "Cyberbullying is no longer just a social issue — it is a digital safety challenge."
+
+CyberX aims to create a safer, smarter, and more responsible digital ecosystem.
+
+---
+
+# ⭐ Support
+
+If you found this project impactful:
+
+🌟 Star the repository
+🍴 Fork the project
+📢 Share it with others
+
+---
+
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/axenhammer"> Axemhammer</a>
+  Built with ❤️ by <b>TEAM JEET</b>
 </p>
 
 ![wave](http://cdn.thekrishna.in/img/common/border.png)
+
