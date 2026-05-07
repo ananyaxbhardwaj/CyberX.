@@ -74,6 +74,9 @@ The framework combines:
 * [x] Docker-based scalable deployment
 * [x] Custom social media sandbox platform (Viraly)
 
+<img width="972" height="547" alt="Screenshot 2026-05-07 at 11 34 16 AM" src="https://github.com/user-attachments/assets/cc25e421-7dc8-4e92-8de7-dee9ef6554a4" />
+
+
 ---
 
 # 🧠 Text Toxicity Prediction 💬
