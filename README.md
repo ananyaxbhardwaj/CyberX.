@@ -4,7 +4,7 @@
 <a href=""><img title="Python3" src="https://img.shields.io/badge/Python-3-yellow?style=for-the-badge&logo=python"></a>
 <a href=""><img title="Flask" src="https://img.shields.io/badge/Backend-Flask-black?style=for-the-badge&logo=flask"></a>
 <a href=""><img title="MongoDB" src="https://img.shields.io/badge/Database-MongoDB-green?style=for-the-badge&logo=mongodb"></a>
-<a href=""><img title="License" src="https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge"></a>
+
 </p>
 
 # 🛡️ CyberX
