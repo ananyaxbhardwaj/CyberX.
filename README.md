@@ -227,6 +227,9 @@ Browser Extension / Social Platforms
 | Reporting Portal & Extension | BERT Toxicity Pipeline | Flask APIs & Viraly | MongoDB & Dashboard  |
 | Real-time detection modules  | NLP Model Integration  | Backend Execution   | Backend Optimization |
 
+<img width="972" height="539" alt="Screenshot 2026-05-07 at 11 31 47 AM" src="https://github.com/user-attachments/assets/39211222-e4c3-45ed-9ca7-b059a07e245f" />
+
+
 ---
 
 # 🙌 Acknowledgements
