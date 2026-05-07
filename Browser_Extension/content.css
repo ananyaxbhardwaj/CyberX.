@@ -1,0 +1,157 @@
+/* CyberX Shield v2.0 — Content Script Styles */
+/* Surgical, per-element blur with proper click-to-reveal. */
+
+/* ===================== CyberX WRAP ELEMENT ===================== */
+/* We wrap ONLY the flagged text in a <span class="CyberX-shield-wrap"> */
+.CyberX-shield-wrap {
+    display: inline !important;
+    position: relative !important;
+    border-radius: 4px !important;
+    transition: filter 0.3s ease, background 0.3s ease !important;
+    cursor: pointer !important;
+}
+
+/* ===================== BLUR STATE ===================== */
+.CyberX-blur {
+    filter: blur(6px) !important;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+}
+
+/* Lighten blur on hover to hint it's clickable */
+.CyberX-blur:hover {
+    filter: blur(3px) !important;
+}
+
+/* Revealed state — no blur */
+.CyberX-blur.CyberX-revealed,
+.CyberX-shield-wrap.CyberX-revealed {
+    filter: none !important;
+    user-select: auto !important;
+    -webkit-user-select: auto !important;
+}
+
+/* ===================== SEVERITY OUTLINES ===================== */
+[data-CyberX-flagged="toxic"] {
+    outline: 2px solid rgba(255, 65, 108, 0.6) !important;
+    outline-offset: 1px !important;
+    border-radius: 3px !important;
+    background: rgba(255, 65, 108, 0.06) !important;
+}
+
+[data-CyberX-flagged="warning"] {
+    outline: 2px solid rgba(255, 193, 7, 0.5) !important;
+    outline-offset: 1px !important;
+    border-radius: 3px !important;
+    background: rgba(255, 193, 7, 0.04) !important;
+}
+
+/* Remove outlines when revealed */
+.CyberX-revealed[data-CyberX-flagged] {
+    outline: 2px dashed rgba(56, 239, 125, 0.4) !important;
+    background: transparent !important;
+}
+
+/* ===================== HOVER TOOLTIP ===================== */
+.CyberX-blur::after {
+    content: '🛡️ Click to reveal';
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: rgba(15, 12, 41, 0.92) !important;
+    color: #fff !important;
+    padding: 4px 12px !important;
+    border-radius: 6px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+    letter-spacing: 0.3px !important;
+    white-space: nowrap !important;
+    z-index: 2147483647 !important;
+    pointer-events: none !important;
+    opacity: 0 !important;
+    transition: opacity 0.15s ease !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(102, 126, 234, 0.3) !important;
+}
+
+.CyberX-blur:hover::after {
+    opacity: 1 !important;
+}
+
+/* Don't show tooltip on revealed items */
+.CyberX-blur.CyberX-revealed::after {
+    display: none !important;
+}
+
+/* ===================== PLATFORM-SPECIFIC TWEAKS ===================== */
+
+/* Twitter/X: ensure tweet text wraps correctly */
+[data-testid="tweetText"] .CyberX-shield-wrap {
+    display: inline !important;
+}
+
+/* YouTube: comments */
+ytd-comment-renderer .CyberX-shield-wrap {
+    display: inline !important;
+}
+
+/* WhatsApp Web: message bubbles */
+.message-in .CyberX-shield-wrap,
+.message-out .CyberX-shield-wrap {
+    display: inline !important;
+}
+
+/* Instagram: spans in posts/comments */
+article .CyberX-shield-wrap {
+    display: inline !important;
+}
+
+/* ===================== VIDEO BLUR ===================== */
+.CyberX-video-blur {
+    position: relative !important;
+    overflow: hidden !important;
+    min-height: 100px !important;
+}
+
+.CyberX-video-blur::before {
+    content: "🛡️ CyberX Shield: Video blurred due to toxic content detection. Click to reveal." !important;
+    position: absolute !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(15, 12, 41, 0.9) !important;
+    backdrop-filter: blur(25px) !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 1000 !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    padding: 30px !important;
+    cursor: pointer !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    border: 2px dashed rgba(255, 65, 108, 0.5) !important;
+}
+
+.CyberX-video-blur.CyberX-revealed::before {
+    display: none !important;
+}
+
+/* ===================== ANIMATION ===================== */
+@keyframes CyberX-fade-in {
+    from {
+        opacity: 0.5;
+        outline-color: transparent;
+    }
+    to {
+        opacity: 1;
+        outline-color: rgba(255, 65, 108, 0.6);
+    }
+}
+
+[data-CyberX-flagged] {
+    animation: CyberX-fade-in 0.4s ease-out !important;
+}

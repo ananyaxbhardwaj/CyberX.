@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title> Viraly | Feed</title>
+    <link rel="icon" type="image/png" href="static/assets/img/favicon.png" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/fontisto@v3.0.4/css/fontisto/fontisto-brands.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="static/assets/css/bulma.css">
+    <link rel="stylesheet" href="static/assets/css/app.css">
+    <link rel="stylesheet" href="static/assets/css/core.css">
+    <style>
+        .tabs ul {
+            background-color: #fcfcfc;
+            border-bottom-color: #fcfcfc;
+            border-bottom-style: none;
+            border-bottom-width: 0px;
+        }
+
+        .tabs.is-boxed li.is-active a {
+            border-color: #fff;
+        }
+
+        .blur_img {
+            filter: blur(0.7rem);
+        }
+
+        /* Toxic content blurring */
+        .toxic-blur {
+            filter: blur(6px);
+            transition: filter 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .toxic-blur:hover {
+            filter: blur(2px);
+        }
+
+        .toxic-blur.revealed {
+            filter: none;
+        }
+
+        /* Toxic warning badge */
+        .toxic-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: #fff;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            animation: pulse-badge 2s infinite;
+        }
+
+        .toxic-badge.warning {
+            background: linear-gradient(135deg, #f7971e, #ffd200);
+            color: #333;
+        }
+
+        .toxic-badge.safe {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+        }
+
+        @keyframes pulse-badge {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        /* Report Modal Styles */
+        .report-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 100000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .report-modal-overlay.is-active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .report-modal {
+            background: #fff;
+            border-radius: 16px;
+            width: 520px;
+            max-width: 95vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .report-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .report-modal-header h3 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .report-modal-header .close-report-modal {
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f5f5f5;
+            transition: background 0.2s;
+            border: none;
+        }
+
+        .report-modal-header .close-report-modal:hover {
+            background: #e0e0e0;
+        }
+
+        .report-modal-body {
+            padding: 24px;
+        }
+
+        .report-modal-body .post-preview {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff416c;
+        }
+
+        .report-modal-body .post-preview .preview-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .report-modal-body .post-preview .preview-content {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .report-modal-body .post-preview .preview-meta {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .report-form-group {
+            margin-bottom: 16px;
+        }
+
+        .report-form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 6px;
+        }
+
+        .report-form-group select,
+        .report-form-group input,
+        .report-form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .report-form-group select:focus,
+        .report-form-group input:focus,
+        .report-form-group textarea:focus {
+            border-color: #5b5ea6;
+            box-shadow: 0 0 0 3px rgba(91, 94, 166, 0.1);
+        }
+
+        .report-form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .report-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .report-modal-footer button {
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-cancel-report {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .btn-cancel-report:hover {
+            background: #e8e8e8;
+        }
+
+        .btn-submit-report {
+            background: linear-gradient(135deg, #5b5ea6, #9b59b6);
+            color: #fff;
+        }
+
+        .btn-submit-report:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(91, 94, 166, 0.4);
+        }
+
+        .btn-submit-report:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Pageloader -->
+    <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="app-overlay"></div>
+
+    <div id="main-navbar" class="navbar is-inline-flex is-transparent no-shadow is-hidden-mobile">
+        <div class="container is-fluid">
+            <div class="navbar-brand">
+                <a href="/" class="navbar-item">
+                    <img src="static/assets/img/favicon.png" width="112" height="28" alt="">
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <!-- Navbar Search -->
+                    <div class="navbar-item is-icon open-chat">
+                        <a class="icon-link is-primary" href="messages?toUser=Support">
+                            <i data-feather="message-square"></i>
+                            <span class="indicator"></span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="navbar-end">
+
+                    <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
+                        <div class="user-image">
+                            <img src="https://ui-avatars.com/api/?color=fff&background={{ fromUser_color }}&name={{ fromUser }}=36&format=svg"
+                                alt="">
+                            <span class="indicator"></span>
+                        </div>
+
+                        <div class="nav-drop is-account-dropdown">
+                            <div class="inner">
+                                <div class="nav-drop-header">
+                                    <span class="username">{{ fullname }}</span>
+                                </div>
+                                <div class="nav-drop-body account-items">
+                                    <a id="profile-link" href="profile-main.html" class="account-item">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://ui-avatars.com/api/?color=fff&background={{ fromUser_color }}&name={{ fromUser }}=36&format=svg"
+                                                        alt="">
+                                                </div>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>{{ fullname }}</h3>
+                                                <small>@{{ fromUser }}</small>
+                                            </div>
+                                            <div class="media-right">
+                                                <i data-feather="check"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <hr class="account-divider">
+                                    <a class="account-item">
+                                        <div class="media">
+                                            <div class="icon-wrap">
+                                                <i data-feather="power"></i>
+                                            </div>
+                                            <div class="media-content">
+                                                <h3>Log out</h3>
+                                                <small>Log out from your account.</small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav class="navbar mobile-navbar is-hidden-desktop" aria-label="main navigation">
+        <!-- Brand -->
+        <div class="navbar-brand">
+            <a class="navbar-item" href="index.html">
+                <img src="static/assets/img/favicon.png" alt="">
+            </a>
+
+            <div class="navbar-item is-icon open-chat">
+                <a class="icon-link is-primary" href="messages?toUser=chatbot">
+                    <i data-feather="message-square"></i>
+                    <span class="indicator"></span>
+                </a>
+            </div>
+
+
+            <!-- Mobile menu toggler icon -->
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <!-- Navbar mobile menu -->
+        <div class="navbar-menu">
+            <!-- Account -->
+            <div class="navbar-item has-dropdown is-active">
+                <div class="navbar-link">
+                    <img src="https://ui-avatars.com/api/?color=fff&background={{ fromUser_color }}&name={{ fromUser }}=36&format=svg"
+                        alt="">
+                    <span class="is-heading">{{ fullname }}</span>
+                </div>
+
+                <!-- Mobile Dropdown -->
+                <div class="navbar-dropdown">
+                    <a href="#" class="navbar-item is-flex is-mobile-icon">
+                        <span><i data-feather="hexagon"></i>Logout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="view-wrapper">
+
+        <!-- Container -->
+        <div id="main-feed" class="container">
+
+            <!-- Content placeholders at page load -->
+            <!-- this holds the animated content placeholders that show up before content -->
+            <div id="shadow-dom" class="view-wrap">
+                <div class="columns">
+                    <div class="column is-3">
+                        <!-- Placeload element -->
+                        <div class="placeload weather-widget-placeload">
+                            <div class="header">
+                                <div class="inner-wrap">
+                                    <div class="img loads"></div>
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="body">
+                                <div class="inner-wrap">
+                                    <div class="rect loads"></div>
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-6">
+
+                        <!-- Placeload element -->
+                        <div class="placeload compose-placeload">
+                            <div class="header">
+                                <div class="content-shape is-lg loads"></div>
+                                <div class="content-shape is-lg loads"></div>
+                                <div class="content-shape is-lg loads"></div>
+                            </div>
+                            <div class="body">
+                                <div class="img loads"></div>
+                                <div class="inner-wrap">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Placeload element -->
+                        <div class="placeload post-placeload">
+                            <div class="header">
+                                <div class="img loads"></div>
+                                <div class="header-content">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="image-placeholder loads"></div>
+                            <div class="placeholder-footer">
+                                <div class="footer-block">
+                                    <div class="img loads"></div>
+                                    <div class="inner-wrap">
+                                        <div class="content-shape loads"></div>
+                                        <div class="content-shape loads"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Placeload element -->
+                        <div class="placeload post-placeload">
+                            <div class="header">
+                                <div class="img loads"></div>
+                                <div class="header-content">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="image-placeholder loads"></div>
+                            <div class="placeholder-footer">
+                                <div class="footer-block">
+                                    <div class="img loads"></div>
+                                    <div class="inner-wrap">
+                                        <div class="content-shape loads"></div>
+                                        <div class="content-shape loads"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Placeload element -->
+                        <div class="placeload post-placeload">
+                            <div class="header">
+                                <div class="img loads"></div>
+                                <div class="header-content">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="image-placeholder loads"></div>
+                            <div class="placeholder-footer">
+                                <div class="footer-block">
+                                    <div class="img loads"></div>
+                                    <div class="inner-wrap">
+                                        <div class="content-shape loads"></div>
+                                        <div class="content-shape loads"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Placeload element -->
+                        <div class="placeload post-placeload">
+                            <div class="header">
+                                <div class="img loads"></div>
+                                <div class="header-content">
+                                    <div class="content-shape loads"></div>
+                                    <div class="content-shape loads"></div>
+                                </div>
+                            </div>
+                            <div class="image-placeholder loads"></div>
+                            <div class="placeholder-footer">
+                                <div class="footer-block">
+                                    <div class="img loads"></div>
+                                    <div class="inner-wrap">
+                                        <div class="content-shape loads"></div>
+                                        <div class="content-shape loads"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-3">
+
+                        <!-- Placeload element -->
+                        <div class="placeload stories-placeload">
+                            <div class="header">
+                                <div class="content-shape loads"></div>
+                            </div>
+                            <div class="body">
+                                <div class="flex-block">
+                                    <div class="img loads"></div>
+                                    <div class="inner-wrap">
+                                        <div class="content-shape loads"></div>
+                                        <div class="content-shape loads"></div>
+                                    </div>
+                                </div>
+                                <div class="flex-block">
+                                    <div class="img loads"></div>
+                                    <div class="inner-wrap">
+                                        <div class="content-shape loads"></div>
+                                        <div class="content-shape loads"></div>
+                                    </div>
+                                </div>
+                                <div class="flex-block">
+                                    <div class="img loads"></div>
+                                    <div class="inner-wrap">
+                                        <div class="content-shape loads"></div>
+                                        <div class="content-shape loads"></div>
+                                    </div>
+                                </div>
+                                <div class="flex-block">
+                                    <div class="img loads"></div>
+                                    <div class="inner-wrap">
+                                        <div class="content-shape loads"></div>
+                                        <div class="content-shape loads"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Feed page main wrapper -->
+            <div id="activity-feed" class="view-wrap true-dom is-hidden">
+                <div class="columns">
+                    <!-- Left side column -->
+                    <div class="column is-3 is-hidden-mobile">
+                        <!-- Weather widget -->
+                        <div class="card is-weather-card has-background-image"
+                            data-background="static/assets/img/illustrations/cards/weather-bg.svg">
+                            <div class="card-heading">
+                            </div>
+                            <div class="card-body">
+                                <div class="temperature">
+                                    <span>28</span>
+                                </div>
+                                <div class="weather-icon">
+                                    <div>
+                                        <i data-feather="sun"></i>
+                                        <h4>Sunny</h4>
+                                        <div class="details">
+                                            <span>Real Feel: 27° </span>
+                                            <span>Rain Chance: 5%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="previsions">
+                                    <div class="day">
+                                        <span>Mon</span>
+                                        <i data-feather="sun"></i>
+                                        <span>29°</span>
+                                    </div>
+                                    <div class="day">
+                                        <span>Tue</span>
+                                        <i data-feather="cloud-lightning"></i>
+                                        <span>31°</span>
+                                    </div>
+                                    <div class="day">
+                                        <span>Wed</span>
+                                        <i data-feather="cloud-lightning"></i>
+                                        <span>33°</span>
+                                    </div>
+                                    <div class="day">
+                                        <span>Thu</span>
+                                        <i data-feather="sun"></i>
+                                        <span>28°</span>
+                                    </div>
+                                    <div class="day">
+                                        <span>Fri</span>
+                                        <i data-feather="cloud-drizzle"></i>
+                                        <span>29°</span>
+                                    </div>
+                                    <div class="day">
+                                        <span>Sat</span>
+                                        <i data-feather="cloud-rain"></i>
+                                        <span>28°</span>
+                                    </div>
+                                    <div class="day">
+                                        <span>Sun</span>
+                                        <i data-feather="sun"></i>
+                                        <span>31°</span>
+                                    </div>
+                                </div>
+                                <div class="current-date-location has-text-centered">
+                                    <span class="date">August 3rd 2020</span>
+                                    <span class="location"> <i data-feather="map-pin"></i> Chennai, IN</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /Left side column -->
+
+                    <div class="column is-6">
+                        <form method="POST" action="/makePost" enctype="multipart/form-data">
+                            <div id="compose-card" class="card is-new-content">
+                                <!-- Top tabs -->
+                                <div class="tabs-wrapper">
+                                    <div class="tabs is-boxed is-fullwidth">
+                                        <ul>
+                                            <li class="is-active tab-custom">
+                                                <a>
+                                                    <span class="icon is-small"><i data-feather="edit-3"></i></span>
+                                                    <span>Publish</span>
+                                                </a>
+                                            </li>
+                                            <!-- Close X button -->
+                                            <li class="is-active close-wrap tab-custom">
+                                                <span class="close-publish">
+                                                    <i data-feather="x"></i>
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <!-- Tab content -->
+                                    <div class="tab-content">
+                                        <!-- Compose form -->
+                                        <div class="compose">
+                                            <div class="compose-form">
+                                                <img src="https://ui-avatars.com/api/?color=fff&background={{ fromUser_color }}&name={{ fromUser }}=36&format=svg"
+                                                    alt="">
+                                                <div class="control">
+                                                    <textarea id="publish" class="textarea" rows="3"
+                                                        placeholder="Write something about you..."
+                                                        name="content_post"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div id="options-summary" class="options-summary"></div>
+
+                                            <!-- Location suboption -->
+                                            <div id="location-suboption" class="is-autocomplete is-suboption is-hidden">
+                                                <div id="location-autocpl-wrapper"
+                                                    class="control is-location-wrapper has-margin">
+                                                    <input id="location-autocpl" type="text" class="input"
+                                                        placeholder="Where are you now?" name="location_post">
+                                                    <div class="icon">
+                                                        <i data-feather="map-pin"></i>
+                                                    </div>
+                                                    <div class="close-icon is-main">
+                                                        <i data-feather="x"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Link suboption -->
+                                            <div id="link-suboption" class="is-autocomplete is-suboption is-hidden">
+                                                <div id="link-autocpl-wrapper"
+                                                    class="control is-location-wrapper has-margin">
+                                                    <input id="link-autocpl" type="text" class="input"
+                                                        placeholder="Enter the link URL" name="link_post">
+                                                    <div class="icon">
+                                                        <i data-feather="link-2"></i>
+                                                    </div>
+                                                    <div class="close-icon is-main">
+                                                        <i data-feather="x"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- General extended options -->
+                                        <div class="compose-options">
+                                            <div class="columns is-multiline is-full">
+                                                <!-- Upload action -->
+                                                <div class="column is-6 is-narrower">
+                                                    <div class="compose-option is-centered">
+                                                        <i data-feather="camera"></i>
+                                                        <span>Photo/Video</span>
+                                                        <input type="file" name="media_post">
+                                                    </div>
+                                                </div>
+
+
+                                                <!-- Post location action -->
+                                                <div class="column is-6 is-narrower">
+                                                    <div id="open-location-suboption"
+                                                        class="compose-option is-centered">
+                                                        <i data-feather="map-pin"></i>
+                                                        <span>Post location</span>
+                                                    </div>
+                                                </div>
+                                                <!-- Share link action -->
+                                                <div class="column is-15 is-narrower">
+                                                    <div id="open-link-suboption" style="text-align: center!important;"
+                                                        class="compose-option is-centered">
+                                                        <i data-feather="link-2"></i>
+                                                        <span>Share link</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="more-wrap">
+                                            <button id="publish-button" type="submit"
+                                                class="button is-solid accent-button is-fullwidth is-disabled">
+                                                Publish
+                                            </button>
+                                        </div>
+                                    </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- To Display Post  -->
+                {% include 'blocks/posts.html' %}
+            </div>
+
+            <div class="column is-3">
+                <div class="card">
+                    <div class="card-heading is-bordered">
+                        <h4>Suggested Friends</h4>
+                    </div>
+                    <div class="card-body no-padding">
+                        <!-- To Display Suggested Friends  -->
+                        {% include 'blocks/suggested-friends.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- /Container -->
+
+    <!-- Google places Lib -->
+    <script
+        src="https://maps.google.com/maps/api/js?key=AIzaSyAGLO_M5VT7BsVdjMjciKoH1fFJWWdhDPU&amp;libraries=places"></script>
+    </div>
+
+    <!-- Concatenated js plugins and jQuery -->
+    <script src="static/assets/js/app.js"></script>
+
+    <!-- Core js -->
+    <!-- <script src="static/assets/data/tipuedrop_content.js"></script> -->
+    <script src="static/assets/js/global.js"></script>
+    <script src="static/assets/js/main.js"></script>
+
+    <!-- Page and UI related js -->
+    <script src="static/assets/js/feed.js"></script>
+    <script src="static/assets/js/chat.js"></script>
+    <script src="static/assets/js/inbox.js"></script>
+    <script src="static/assets/js/profile.js"></script>
+    <script src="static/assets/js/friends.js"></script>
+    <script src="static/assets/js/events.js"></script>
+    <script src="static/assets/js/explorer.js"></script>
+    <script src="static/assets/js/news.js"></script>
+    <script src="static/assets/js/questions.js"></script>
+    <script src="static/assets/js/videos.js"></script>
+    <script src="static/assets/js/shop.js"></script>
+    <script src="static/assets/js/settings.js"></script>
+
+    <!-- Components js -->
+    <script src="static/assets/js/widgets.js"></script>
+    <script src="static/assets/js/autocompletes.js"></script>
+    <script src="static/assets/js/modal-uploader.js"></script>
+    <!-- <script src="static/assets/js/popovers-users.js"></script>
+        <script src="static/assets/js/popovers-pages.js"></script> -->
+    <script src="static/assets/js/go-live.js"></script>
+    <script src="static/assets/js/lightbox.js"></script>
+    <script src="static/assets/js/touch.js"></script>
+    <script src="static/assets/js/tour.js"></script>
+    <script>
+        function delay(URL) {
+            setTimeout(function () { window.location = URL }, 2000);
+        }
+    </script>
+    <script type="text/javascript">
+        function send_message(post_id) {
+            console.log(post_id)
+            like_text = document.getElementById("like_" + post_id);
+            button_like = document.getElementById("button_" + post_id);
+            button_like.onclick = null;
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    like_text.innerHTML = Number(like_text.innerHTML) + 1;
+                }
+            }
+            var url = '{{ url_for("like_post") }}?post_id=' + post_id;
+            console.log(url)
+            xhttp.open('GET', url, true);
+            xhttp.send();
+        }
+    </script>
+    <script>
+        function unblur(img) {
+            var image = document.getElementById(img);
+            if (image.classList.contains('blur_img')) {
+                image.classList.remove('blur_img');
+            }
+            else {
+                image.classList.add('blur_img');
+            }
+        }
+    </script>
+
+    <!-- ==================== CyberX REPORT MODAL ==================== -->
+    <div id="report-modal-overlay" class="report-modal-overlay">
+        <div class="report-modal">
+            <div class="report-modal-header">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="#ff416c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+                        <line x1="4" y1="22" x2="4" y2="15"></line>
+                    </svg>
+                    Report Content to CyberX
+                </h3>
+                <button class="close-report-modal" id="close-report-modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="report-modal-body">
+                <div class="post-preview">
+                    <div class="preview-label">Flagged Content</div>
+                    <div class="preview-content" id="report-preview-content">—</div>
+                    <div class="preview-meta">
+                        Post ID: <strong id="report-preview-id">—</strong> |
+                        Author: <strong id="report-preview-author">—</strong> |
+                        NLP: <span id="report-preview-prediction" class="toxic-badge">—</span>
+                    </div>
+                </div>
+                <form id="report-form">
+                    <input type="hidden" id="report-post-id" name="viraly_post_id" value="">
+                    <input type="hidden" name="platform" value="viraly">
+                    <input type="hidden" id="report-content-type" name="viraly_content-type" value="post">
+                    <div class="report-form-group">
+                        <label for="report-crime-type">Reason for Reporting</label>
+                        <select id="report-crime-type" name="crime_type">
+                            <option value="Harrasment" selected>Harassment & Cyberstalking</option>
+                            <option value="Impersonation">Impersonation</option>
+                            <option value="NSFW">Inappropriate Photographs/Videos</option>
+                            <option value="Masquerading">Masquerading / Catfishing</option>
+                            <option value="Hate Speech">Hate Speech / Identity Attack</option>
+                            <option value="Threat">Threats / Intimidation</option>
+                        </select>
+                    </div>
+                    <div class="report-form-group">
+                        <label for="report-victim-name">Your Full Name</label>
+                        <input type="text" id="report-victim-name" name="full_name" placeholder="Enter your full name"
+                            value="{{ fullname }}" required>
+                    </div>
+                    <div class="report-form-group">
+                        <label for="report-victim-email">Your Email</label>
+                        <input type="email" id="report-victim-email" name="email" placeholder="you@example.com"
+                            required>
+                    </div>
+                    <div class="report-form-group">
+                        <label for="report-additional">Additional Details (Optional)</label>
+                        <textarea id="report-additional" name="additional_details"
+                            placeholder="Describe the situation..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="report-modal-footer">
+                <button type="button" class="btn-cancel-report" id="cancel-report-btn">Cancel</button>
+                <button type="button" class="btn-submit-report" id="submit-report-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                        style="margin-right:6px;vertical-align:middle">
+                        <path d="M22 2L11 13"></path>
+                        <path d="M22 2L15 22L11 13L2 9L22 2Z"></path>
+                    </svg>
+                    Submit Report
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CyberX Flag & Reporting Logic -->
+    <script>
+        (function () {
+            'use strict';
+
+            var REPORTING_URL = '{{ config.get("REPORTING_PLATFORM_URL", "http://localhost:3003") }}';
+            var overlay = document.getElementById('report-modal-overlay');
+            var closeBtn = document.getElementById('close-report-modal');
+            var cancelBtn = document.getElementById('cancel-report-btn');
+            var submitBtn = document.getElementById('submit-report-btn');
+
+            // Close modal
+            function closeModal() {
+                overlay.classList.remove('is-active');
+            }
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+            if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+            overlay.addEventListener('click', function (e) {
+                if (e.target === overlay) closeModal();
+            });
+
+            // Open modal with post data
+            function openReportModal(postId, postContent, postAuthor, postPrediction) {
+                document.getElementById('report-preview-content').textContent = postContent || '—';
+                document.getElementById('report-preview-id').textContent = postId || '—';
+                document.getElementById('report-preview-author').textContent = postAuthor || '—';
+                var predBadge = document.getElementById('report-preview-prediction');
+                predBadge.textContent = postPrediction || '—';
+                predBadge.className = 'toxic-badge';
+                if (postPrediction && postPrediction.toLowerCase().indexOf('toxic') !== -1) {
+                    // default red style — no extra class needed
+                } else if (postPrediction && postPrediction.toLowerCase().indexOf('violate') !== -1) {
+                    predBadge.classList.add('safe');
+                } else {
+                    predBadge.classList.add('warning');
+                }
+                document.getElementById('report-post-id').value = postId;
+                overlay.classList.add('is-active');
+            }
+
+            // Delegate click on any flag button (dropdown flag or floating flag)
+            document.addEventListener('click', function (e) {
+                var flagEl = e.target.closest('.flag-post');
+                if (!flagEl) return;
+                e.preventDefault();
+                e.stopPropagation();
+                var card = flagEl.closest('.card.is-post');
+                if (!card) return;
+                var postId = card.getAttribute('data-post-id') || '—';
+                var postContent = card.getAttribute('data-post-content') || '—';
+                var postAuthor = card.getAttribute('data-post-author') || '—';
+                var postPrediction = card.getAttribute('data-post-prediction') || '—';
+                openReportModal(postId, postContent, postAuthor, postPrediction);
+            });
+
+            // Toggle toxic blur on click
+            document.addEventListener('click', function (e) {
+                var blurEl = e.target.closest('.toxic-blur');
+                if (blurEl && !e.target.closest('.flag-post')) {
+                    blurEl.classList.toggle('revealed');
+                }
+            });
+
+            // Submit report
+            if (submitBtn) {
+                submitBtn.addEventListener('click', function () {
+                    var form = document.getElementById('report-form');
+                    var formData = new FormData(form);
+                    // Add defaults for fields the Reporting Platform expects
+                    if (!formData.get('username')) formData.append('username', '{{ fromUser }}');
+                    if (!formData.get('dob')) formData.append('dob', '');
+                    if (!formData.get('address')) formData.append('address', '');
+                    if (!formData.get('state')) formData.append('state', '');
+                    if (!formData.get('city')) formData.append('city', '');
+                    if (!formData.get('pincode')) formData.append('pincode', '');
+
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<span style="display:inline-flex;align-items:center;gap:6px"><svg class="spin" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg> Submitting...</span>';
+
+                    // Submit to the Reporting Platform
+                    fetch(REPORTING_URL + '/push', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(function (response) {
+                            if (response.ok || response.redirected) {
+                                closeModal();
+                                if (typeof iziToast !== 'undefined') {
+                                    iziToast.show({
+                                        class: 'toast',
+                                        icon: 'mdi mdi-check-circle',
+                                        title: 'Report Submitted!',
+                                        message: 'Your report has been sent to the CyberX Reporting Authority.',
+                                        titleColor: '#fff',
+                                        messageColor: '#fff',
+                                        iconColor: '#fff',
+                                        backgroundColor: '#11998e',
+                                        progressBarColor: '#38ef7d',
+                                        position: 'topRight',
+                                        transitionIn: 'fadeInDown',
+                                        close: false,
+                                        timeout: 4000,
+                                        zindex: 200000
+                                    });
+                                } else {
+                                    alert('Report submitted successfully!');
+                                }
+                            } else {
+                                throw new Error('Server returned ' + response.status);
+                            }
+                        })
+                        .catch(function (err) {
+                            console.error('Report submission error:', err);
+                            if (typeof iziToast !== 'undefined') {
+                                iziToast.show({
+                                    class: 'toast',
+                                    icon: 'mdi mdi-alert-circle',
+                                    title: 'Submission Failed',
+                                    message: 'Could not reach the Reporting Platform. Is it running on port 3003?',
+                                    titleColor: '#fff',
+                                    messageColor: '#fff',
+                                    iconColor: '#fff',
+                                    backgroundColor: '#ff533d',
+                                    progressBarColor: '#fff',
+                                    position: 'topRight',
+                                    transitionIn: 'fadeInDown',
+                                    close: false,
+                                    timeout: 5000,
+                                    zindex: 200000
+                                });
+                            } else {
+                                alert('Failed to submit report. Is the Reporting Platform running?');
+                            }
+                        })
+                        .finally(function () {
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:middle"><path d="M22 2L11 13"></path><path d="M22 2L15 22L11 13L2 9L22 2Z"></path></svg>Submit Report';
+                        });
+                });
+            }
+        })();
+    </script>
+</body>
+
+</html>

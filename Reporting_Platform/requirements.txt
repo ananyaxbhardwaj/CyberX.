@@ -1,0 +1,8 @@
+flask
+pymongo
+bcrypt
+tweepy
+torch
+torchvision
+transformers
+tf-keras
